@@ -4,19 +4,22 @@
 
 <style>
 .main{
-    font-family: verdana;
+    font-family: arial;
     display: flex;
     flex-direction: column;
     gap: 10px; /* Define o espaçamento entre os elementos */
-    max-width: 300px; /* Define uma largura para melhor alinhamento */
+    max-width: 500px; /* Define uma largura para melhor alinhamento */
 }
 .green{
+
     color:green;
     font-weight: bold;
+    font-family: arial;
 }
 .red{
     color:red;
     font-style:italic;
+    font-family: arial;
 }
 input {
     flex: 1; /* Faz com que o input ocupe o espaço restante */
@@ -47,8 +50,21 @@ label {
     <div class = "field">
         <label for = "senha">Senha:</label>
         <input type = "password" id = "senha" name = "senha"><br>
+        
     </div>
-    
+    <p class = " green"> Em que moeda prefere receber o salário ?</p>
+<div class = " red">
+  <input type = "radio" id = "real" name = "moeda" value = "real">
+  <label for = "real">Real</label><br>
+  <input type = "radio" id = "dolar" name = "moeda" value = "dolar">
+  <label for = "dolar">Dolar</label><br>
+  <input type = "radio" id = "euro" name = "moeda" value = "euro">
+  <label for = "euro">Euro</label><br>
+  <input type = "radio" id = "yen" name = "moeda" value = "yen">
+  <label for "yen">Yen</label><br>
+  </div>
+  
 </form>
+
 </body>
 </html>
