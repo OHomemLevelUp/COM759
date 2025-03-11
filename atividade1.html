@@ -9,32 +9,36 @@
     flex-direction: column;
     gap: 10px; /* Define o espaçamento entre os elementos */
     max-width: 500px; /* Define uma largura para melhor alinhamento */
-}
+	}
 .green{
 
     color:green;
     font-weight: bold;
     font-family: arial;
-}
+	}
 .red{
     color:red;
     font-style:italic;
     font-family: arial;
-}
+	}
 input {
     flex: 1; /* Faz com que o input ocupe o espaço restante */
     padding: 5px;
     box-sizing: border-box;
-}
+	}
 label {
     width: 120px; /* Largura fixa para todas as labels */
     text-align: right; /* Alinha o texto à direita */
-}
+	}
 .field {
     display: flex;
     align-items: center; /* Alinha verticalmente as labels e inputs */
     gap: 10px; /* Espaçamento entre a label e o input */
-}
+	}
+option{
+	color:red;
+    font-family:arial;
+    }
 </style>
 </head>
 <body>
@@ -63,8 +67,46 @@ label {
   <input type = "radio" id = "yen" name = "moeda" value = "yen">
   <label for "yen">Yen</label><br>
   </div>
-  
+  <p class = "green"> Selecione as linguagens que ja estudou:</p>
+  <div class = " red">
+    <input type = "radio" id = "c" name = "linguagem" value = "c">
+    <label for = "c">C</label><br>
+    <input type = "radio" id = "c++" name = "linguagem" value = "c++">
+    <label for = "c++">C++</label><br>
+    <input type = "radio" id = "html" name = "linguagem" value = "html">
+    <label for = "html">HTML</label><br>
+    <input type = "radio" id = "java" name = "linguagem" value = "java">
+    <label for = "java">Java</label><br>
+    <input type = "radio" id = "javascript" name = "linguagem" value = "javascript">
+    <label for = "javascript">Javascript</label><br>
+    <input type = "radio" id = "python" name = "linguagem" value = "python">
+    <label for = "python">Pyhton</label><br>
+  </div>
+  <div class = "green">
+  	<label for = "arquivo">Foto atual:</label>
+  </div>
+  <div class = "red">
+    <input type = "file" id = "arquivo" name = "arquivo"><br>
+  </div>
+  <div class = "green">
+  	<label for = "assuntos">Seus assuntos favoritos:</label><br>
+  </div>
+  <div class = "red">
+  	<select id = "assuntos" name = "assuntos" size = "4">
+      <option value = "artes">Artes</option>
+      <option value = "esportes">Esportes</option>
+      <option value = "games">Games</option>
+      <option value = "musicas">Musicas</option>
+      </div>
+   </select><br><br>
+  <div class = "green">
+  	<label for = "comentario">Gostaria de fazer Comentarios?</label><br>
+  </div>
+  	<textarea name = comentario" rows = 10" cols = "50">
+    Faca seus comentarios aqui.
+    </textarea><br>
+    <input type = "submit" value = "Enviar">
+    <input type = "reset" value = "Limpar">
 </form>
-
 </body>
 </html>
