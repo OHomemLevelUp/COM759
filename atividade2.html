@@ -29,14 +29,6 @@ td:first-child{
     }
 
 </style>
-
-
-
-
-
-
-
-
 </head>
 <body>
 <h2 style = "text-align: left;">Cadastro de Aluno</h2>
@@ -60,34 +52,66 @@ td:first-child{
        </tr>
 	   <tr>
        <td></td>
-       	<td class = "botoes"> <input type = "submit" value = "Enviar"> 
-         	 <input type = "reset" value = "limpar">
+       	<td class = "botoes"> <input type = "submit" value = "Enviar" onclick="validarFormulario()"> 
+         	 <input type = "reset" value = "limpar" onclick="limparFormulario()">
         </td>
-  
-
-
-
-
-
-
-
-
-
-</table>
-    
+</table>  
 </form>
-
-
-
-
-
-
-    <script > // javascript
-
-
-
-
+<script > 
+	function validarFormulario(){
+    // Pegando os valores do forms
+    	let ra = document.getElementById("ra").value.trim();
+        let nome = document.getElementById("nome").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let senha = document.getElementById("senha").value.trim();
+        // verificando se todos os campos estão preenchidos
+        if(!ra || !nome || !email || !senha){
+        	alert("Todos os campos devem ser preenchidos!");
+            return;
+        }
+        // verificar se o campo ra tem 9 caracteres
+        if(ra.length !== 9 || isNaN(ra)) {
+        	alert("O RA deve ter 9 digitos numéricos!");
+            return;
+        }
+    // verificar se os primeiros 4 digitos númericos estão entre 1999 e 2021
+    	let ano = parseInt(ra.substring(0, 4));
+        if (ano < 1999 || ano > 2021) {
+        	alert("Os primeiros 4 digitos do RA devem representar um ano entre 1999 e 2021!");
+            return;
+        }
+    //verificar se o nome tem pelo menos duas palavras
+    if(nome.split(" ").length < 2) {
+    	alert("O nome deve conter pelo menos duas palavras!");
+        return;
+     }
+       // verificar se o email tem @ no meio ou não. 
+    if(!email.includes("@") || email.startsWith("@") || email.endsWith("@")) {
+    	alert("O e-mail deve conter um @ valido!");
+        return;  
+    }
+    // verificar se a senha tem pelo menos 10 caracteres
+    if(senha.length < 10 ) {
+    alert("A senha deve ter pelo menos 10 caracteres!");
+    return;
+    }
     
+    // criar objeto JSON e exibir no console
+    let dados = {
+    RA: ra,
+    Nome: nome,
+    Email: email,
+    Senha: senha
+    };
+    //imprimindo no console
+    console.log("Dados cadastrados:", JSON.stringfy(dados, null , 2));
+    alert("Cadastro realizado com sucesso!"); 
+    } //colchetes função
+
+	//função de limpar form
+	function limparFormulario() {
+		document.getElementById("cadastroForm").reset();
+    }
     </script>
     
 </body>
