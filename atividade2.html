@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
+<title>Cadastro de Aluno</title>
+<style> /* CSS */
+ body {
+	font-family: Arial, sans-serif;
+  }
 
+label{
+	font-weight:bold;
+	color:black;
+ }
 
-
-
-
+input{
+	font-style:italic;
+	color:black;
+ }
+td {
+	padding: 8px;
+ }
+td:first-child{
+	text-align: right;
+ }
+    
+.botoes{
+	display: flex;
+    gap: 10px;
+    }
 
 </style>
 
@@ -18,8 +38,9 @@
 
 
 </head>
-<body> 
-<form>
+<body>
+<h2 style = "text-align: left;">Cadastro de Aluno</h2>
+<form id = "cadastroform">
 	<table>
 		<tr>
         	<td> <label for = "ra">RA:</label></td>
@@ -30,7 +51,7 @@
             <td> <input type = "text" id = "nome" name = "nome"></td>
         </tr>
         <tr>
-        	<td> <label for = "email">Email:</label></td>
+        	<td> <label for = "email">E-mail:</label></td>
             <td> <input type = "email" id = "email" name = "email"></td>
        </tr>
        <tr>
@@ -39,7 +60,7 @@
        </tr>
 	   <tr>
        <td></td>
-       	<td> <input type = "submit" value = "Enviar"> 
+       	<td class = "botoes"> <input type = "submit" value = "Enviar"> 
          	 <input type = "reset" value = "limpar">
         </td>
   
