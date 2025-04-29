@@ -1,53 +1,72 @@
-from flask import json, request, jsonify
-import flask
-from bson import json_util
-from app import app
-from app import db
-from bson.objectid import ObjectId
+from flask import render_template, request, jsonify, redirect, url_for
+from app import app, db
+from bson import ObjectId
 
+# 1) Página inicial: listar as notas em HTML
 @app.route('/')
-@app.route('/index')
 def index():
-	return flask.jsonify(json.loads(json_util.dumps(db.candidato.find({}).sort("_id", 1))))
+    notas = list(db.notafiscal.find({}).sort("numero", 1))
+    return render_template('listarNotas.html', notas=notas)
 
-@app.route("/create")
+# 2) API JSON: listar todas as notas (opcional)
+@app.route('/notas')
+def listar_notas_json():
+    notas = list(db.notafiscal.find({}, {"_id": 0}))
+    return jsonify(status="OK", notas=notas)
+
+# 3) Formulário de criação
+@app.route('/create')
 def create():
-	return flask.render_template('create.html')
+    return render_template('create.html')
 
+# 4) Ação de criação
 @app.route('/createAction', methods=['POST'])
 def createAction():
-	json_data = request.form.to_dict()
-	if json_data is not None:
-		if db.candidato.insert_one(json_data).inserted_id is not None:
-			return jsonify(mensagem='Inserido')
-		else:
-			return jsonify(mensagem='Não inserido')
-	else:
-		return jsonify(mensagem='Nada a inserir')
+    data = request.form.to_dict()
+    if not data.get('numero'):
+        return jsonify(mensagem='Erro: número obrigatório'), 400
 
-@app.route("/update/<string:login>")
-def update(login):
-	candidato = db.candidato.find_one({"login": login})
-	if candidato is not None:
-		return flask.render_template('update.html', candidato=candidato)
-	else:
-		return jsonify(mensagem='Login não existe')
+    result = db.notafiscal.insert_one(data)
+    if result.inserted_id:
+        return jsonify(mensagem='Inserido')
+    return jsonify(mensagem='Não inserido'), 500
 
+# 5) Formulário de edição
+@app.route('/update/<string:numero>')
+def update(numero):
+    nota = db.notafiscal.find_one({"numero": numero})
+    if not nota:
+        return jsonify(mensagem='Nota não existe'), 404
+    return render_template('update.html', nota=nota)
+
+# 6) Ação de edição
 @app.route('/updateAction', methods=['POST'])
 def updateAction():
-	json_data = request.form.to_dict()
-	if json_data is not None:
-		if db.candidato.update_one({'_id': ObjectId(json_data["_id"])}, {"$set": {'nome': json_data["nome"], 'login': json_data["login"],'senha': json_data["senha"],'descricao': json_data["descricao"]}}).modified_count > 0:
-			return jsonify(mensagem='Alterado')
-		else:
-			return jsonify(mensagem='Não alterado')
-	else:
-		return jsonify(mensagem='Nada a alterar')
+    data = request.form.to_dict()
+    original = data.pop('original_numero', None)
+    new_numero = data.get('numero')
 
-@app.route("/delete/<string:login>")
-def delete(login):
-    result = db.candidato.delete_one({"login": login})
-    if(result.deleted_count > 0):
-        return jsonify(mensagem='Removido')
-    else:
-        return jsonify(mensagem='Não removido')
+    if original and new_numero:
+        update_fields = {
+            'numero':    new_numero,
+            'comprador': data.get('comprador'),
+            'cnpj':      data.get('cnpj'),
+            'endereco':  data.get('endereco'),
+            'telefone':  data.get('telefone'),
+            'data':      data.get('data'),
+            'valor':     data.get('valor'),
+            'itens':     data.get('itens')
+        }
+        res = db.notafiscal.update_one(
+            {"numero": original},
+            {"$set": update_fields}
+        )
+        if res.modified_count > 0:
+            return jsonify(mensagem='Alterado')
+    return jsonify(mensagem='Não alterado')
+
+# 7) Ação de exclusão
+@app.route('/delete/<string:numero>')
+def delete(numero):
+    res = db.notafiscal.delete_one({"numero": numero})
+    return redirect(url_for('index'))
