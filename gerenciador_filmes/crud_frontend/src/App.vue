@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <h1>🎬 Gerenciador de Filmes</h1>
+    <nav>
+      <router-link to="/create">Criar Filme</router-link> |
+      <router-link to="/list">Listar Filmes</router-link> |
+      <router-link to="/update">Atualizar Filme</router-link>
+    </nav>
     <router-view/>
   </div>
 </template>
@@ -12,12 +17,11 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+nav a {
+  margin: 0 10px;
 }
 </style>

@@ -1,6 +1,6 @@
 # crud_frontend
 
-> Frontend Vue.js para o Gerenciador de Filmes
+> Gerenciador de Filmes com Vue.js
 
 ## Build Setup
 

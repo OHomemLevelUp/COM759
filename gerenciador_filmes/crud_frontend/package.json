@@ -1,7 +1,7 @@
 {
   "name": "crud_frontend",
   "version": "1.0.0",
-  "description": "Frontend Vue.js para o Gerenciador de Filmes",
+  "description": "Gerenciador de Filmes com Vue.js",
   "author": "OHomemLevelUp <pedro.pellegrina.alba@gmail.com>",
   "private": true,
   "scripts": {

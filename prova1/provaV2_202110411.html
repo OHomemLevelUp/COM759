@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prova 1</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      color: green;
+    }
+
+    input {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .grande {
+      width: 400px;
+    }
+    .pequeno{
+      width: 100px;
+    }
+
+    table {
+      margin: auto;
+    }
+
+    td:first-child {
+      text-align: right; 
+      padding-right: 0px; 
+    }
+
+    td button.submit-btn {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    button{
+      font-weight: bold;
+    }
+  </style>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" >
+    // IMPORTANDO JQUERY
+  </script> 
+  <script> // aqui vai o javascript
+  $(document).ready(function () {
+    $("#form").submit(function (event) {
+        event.preventDefault(); // Evita o envio padrão do formulário
+        
+        // Declarando variáveis
+        let nome = $("#nome").val().trim();
+        let cpf = $("#cpf").val().trim();
+        let rg = $("#rg").val().trim();
+        let ano_entrada = $("#ano_entrada").val().trim();
+        let ano_saida = $("#ano_saida").val().trim();
+        let email = $("#email").val().trim();
+        let senha = $("#senha").val().trim();
+        let errors = [];
+
+        // Verificando se todos os campos obrigatórios foram preenchidos
+        if (!nome || !cpf || !rg || !ano_entrada || !email || !senha) {
+            alert("Todos os campos obrigatórios devem ser preenchidos!");
+            return;
+        }
+
+        // Validando o nome
+        let palavras = nome.split(" ").filter(p => p.length > 0);
+        if (palavras.length < 2) {
+            alert("O nome deve conter pelo menos duas palavras!");
+            return;
+        }
+        if (/\d/.test(nome)) {
+            alert("O nome não pode conter números!");
+            return;
+        }
+
+        // Validando CPF
+        if (!/^\d{11}$/.test(cpf)) {
+            alert("O CPF deve conter exatamente 11 dígitos numéricos!");
+            return;
+        }
+
+        // Validando RG
+        if (!/^\d{7,}$/.test(rg)) {
+            alert("O RG deve conter pelo menos 7 dígitos numéricos!");
+            return;
+        }
+
+        // Validando Ano de Entrada e Ano de Saída
+        let anoAtual = new Date().getFullYear();
+        if (!/^\d{4}$/.test(ano_entrada) || ano_entrada > anoAtual) {
+            alert("O Ano de Entrada deve ser um número válido até " + anoAtual + ".");
+            return;
+        }
+        if (ano_saida && (!/^\d{4}$/.test(ano_saida) || ano_saida > anoAtual)) {
+            alert("O Ano de Saída deve ser um número válido até " + anoAtual + ".");
+            return;
+        }
+        if (ano_saida && ano_entrada > ano_saida) {
+            alert("O Ano de Entrada não pode ser maior que o Ano de Saída.");
+            return;
+        }
+
+        // verificar se o email tem @ no meio ou não. 
+    if(!email.includes("@") || email.startsWith("@") || email.endsWith("@")) {
+    	alert("O e-mail deve conter um @ valido!");
+        return;  
+    }
+
+        // Validando Senha
+        if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/.test(senha)) {
+            alert("A senha deve ter pelo menos 12 caracteres, incluindo um número, um caractere especial e uma letra maiúscula.");
+            return;
+        }
+
+        // Se passou na validação, enviar os dados via AJAX
+        $.ajax({
+            url: "https://jsonplaceholder.typicode.com/posts", // URL de teste
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                nome, cpf, rg, ano_entrada, ano_saida, email, senha
+            }),
+            success: function (response) {
+                $("#erro").html("");
+                alert("Formulário enviado com sucesso!");
+            },
+            error: function () {
+                alert("Erro ao enviar o formulário.");
+            }
+        });
+    });
+
+    // Função de limpar formulário e mensagens de erro
+    $("#limpar").click(function () {
+        $("#erro").html("");
+    });
+});
+
+    
+  </script>
+</head>
+<body>
+  <form id="form">
+    <table>
+      <tr>
+        <td>Nome:</td>
+        <td><input id="nome" class="grande" type="text"></td>
+      </tr>
+      <tr>
+        <td>CPF:</td>
+        <td><input id="cpf" type="text"></td>
+      </tr>
+      <tr>
+        <td>RG:</td>
+        <td><input id="rg" type="text"></td>
+      </tr>
+      <tr>
+        <td>Ano entrada:</td>
+        <td><input id="ano_entrada" class="pequeno" type="text"></td>
+      </tr>
+      <tr>
+        <td>Ano saída:</td>
+        <td><input id="ano_saida" class="pequeno" type="text"></td>
+      </tr>
+      <tr>
+        <td>E-mail:</td>
+        <td><input id="email" class="grande" type="text"></td>
+      </tr>
+      <tr>
+        <td>Senha:</td>
+        <td><input id="senha" type="password"></td>
+      </tr>
+      <tr>
+        <td><button id="enviar" class="submit-btn" type="submit">Enviar</button></td>
+        <td><button id="limpar" type="reset">Limpar</button></td>
+      </tr>
+    </table>
+  </form>
+</body>
+</html>
