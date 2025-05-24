@@ -1,14 +1,21 @@
-from config import Config
 from flask import Flask
 from flask_pymongo import PyMongo
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
+from .config import Config
 
-app = Flask(__name__)
-app.config.from_object(Config)
+mongo = PyMongo()
+jwt = JWTManager()
 
-CORS(app, resources={r'/*': {'origins': '*'}})
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
-mongodb_client = PyMongo(app, uri="mongodb+srv://admin:admin@cluster0.pojhz.mongodb.net/Cluster0?retryWrites=true&w=majority")
-db = mongodb_client.db
+    CORS(app)
+    mongo.init_app(app)
+    jwt.init_app(app)
 
-from app import routes
+    from .routes import main
+    app.register_blueprint(main)
+
+    return app
