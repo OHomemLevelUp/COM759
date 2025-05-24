@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="container">
     <h2>Login</h2>
     <form @submit.prevent="login">
       <input v-model="email" placeholder="Email" />
-      <input v-model="senha" placeholder="Senha" type="password" />
+      <input v-model="senha" type="password" placeholder="Senha" />
       <button type="submit">Entrar</button>
     </form>
     <p v-if="erro">{{ erro }}</p>
     <p>
       Não tem conta?
-      <button @click="irParaCadastro">Cadastre-se</button>
+      <button class="link" @click="irParaCadastro">Cadastre-se</button>
     </p>
   </div>
 </template>
